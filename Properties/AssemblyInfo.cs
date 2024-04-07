@@ -5,7 +5,7 @@ using System.Windows;
 [assembly: AssemblyTitle("MathGraph")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Roman Kiselev")]
 [assembly: AssemblyProduct("MathGraph")]
 [assembly: AssemblyCopyright("Copyright © 2024")]
 [assembly: AssemblyTrademark("")]
