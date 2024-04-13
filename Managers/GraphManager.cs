@@ -60,7 +60,9 @@ namespace MathGraph.Managers
         public static PlotModel MakeGraph(string formula)
         {
             if (string.IsNullOrWhiteSpace(formula))
-                throw new NullReferenceException("Формула не может быть пустой!");
+            {
+                throw new NullReferenceException("Введите формулу!");
+            }
 
             List<string> forbiddenSymbolsInFormula = forbiddenSymbols.Where(symbol => formula.Contains(symbol)).Distinct().ToList();
             if (forbiddenSymbolsInFormula.Count > 0)
@@ -85,18 +87,24 @@ namespace MathGraph.Managers
                 StrokeThickness = 3
             };
 
-            double minX = double.MaxValue, minY = double.MaxValue;
-            double maxX = double.MinValue, maxY = double.MinValue;
+            double minX = double.MaxValue;
+            double maxX = double.MinValue;
+            double minY = double.MaxValue;
+            double maxY = double.MinValue;
 
             for (double x = -10; x <= 10; x += 0.1)
             {
                 double y = EvaluateFormula(formula, x);
                 lineSeries.Points.Add(new DataPoint(x, y));
 
-                if (x < minX) minX = x;
-                if (x > maxX) maxX = x;
-                if (y < minY) minY = y;
-                if (y > maxY) maxY = y;
+                if (x < minX)
+                    minX = x;
+                if (x > maxX) 
+                    maxX = x;
+                if (y < minY) 
+                    minY = y;
+                if (y > maxY) 
+                    maxY = y;
             }
 
             double yRange = Math.Max(Math.Abs(minY), Math.Abs(maxY));
@@ -137,8 +145,8 @@ namespace MathGraph.Managers
             };
             yLineSeries.Points.Add(new DataPoint(0, yStart));
             yLineSeries.Points.Add(new DataPoint(0, yEnd));
-            plotModel.Series.Add(yLineSeries);
 
+            plotModel.Series.Add(yLineSeries);
             plotModel.Series.Add(lineSeries);
 
             return plotModel;
@@ -156,10 +164,14 @@ namespace MathGraph.Managers
         private static void Expression_EvaluateFunction(string name, FunctionArgs args)
         {
             if (!graphFunctions.ContainsKey(name.ToLower()))
+            {
                 throw new ArgumentException($"Функция {name.ToLower()} не поддерживается!");
+            }
 
             if (args.Parameters.Length < 1 || args.Parameters.Length > 2)
+            {
                 throw new ArgumentException($"Неверное количество параметров в функции {name.ToLower()}!");
+            }
 
             double param1 = Convert.ToDouble(args.Parameters[0].Evaluate());
             double param2 = args.Parameters.Length == 2 ? Convert.ToDouble(args.Parameters[1].Evaluate()) : 0;
